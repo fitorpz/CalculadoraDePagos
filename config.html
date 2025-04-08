@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Configuración</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        body {
+            background-color: #ecf0f1;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .panel {
+            background: #ffffff;
+            padding: 30px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            color: #34495e;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .guardar-btn {
+            background-color: #2980b9;
+            color: white;
+            margin-top: 10px;
+        }
+
+        .cerrar-btn {
+            background-color: #e74c3c;
+            color: white;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 6px 12px;
+            font-size: 13px;
+            width: auto;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 20px 10px;
+                align-items: center;
+            }
+
+            .panel {
+                padding: 25px 20px;
+            }
+
+            .cerrar-btn {
+                top: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="cerrar-btn" onclick="cerrarSesion()">Cerrar sesión</button>
+
+    <div class="panel">
+
+        <h2>Configurar valores</h2>
+
+        <label for="precioBinance">Precio USDT (Binance):</label>
+        <input type="number" id="precioBinance" step="0.01" />
+
+        <label for="comision">Comisión fija (Bs):</label>
+        <input type="number" id="comision" step="0.01" />
+
+        <button class="guardar-btn" onclick="guardar()">Guardar configuración</button>
+    </div>
+
+    <script>
+        // Validar sesión
+        window.onload = function () {
+            const sesion = localStorage.getItem("sesionIniciada");
+            if (sesion !== "true") {
+                window.location.href = "login.html";
+            }
+
+            // Rellenar campos si ya están guardados
+            const precio = localStorage.getItem("precioUSDT");
+            const comision = localStorage.getItem("comisionFija");
+
+            if (precio) document.getElementById("precioBinance").value = precio;
+            if (comision) document.getElementById("comision").value = comision;
+        };
+
+        function guardar() {
+            const precio = document.getElementById("precioBinance").value;
+            const comision = document.getElementById("comision").value;
+
+            localStorage.setItem("precioUSDT", precio);
+            localStorage.setItem("comisionFija", comision);
+
+            alert("✅ Configuración guardada correctamente.");
+            window.location.href = "index.html";
+        }
+
+        function cerrarSesion() {
+            localStorage.removeItem("sesionIniciada");
+            window.location.href = "login.html";
+        }
+    </script>
+
+</body>
+
+</html>
